@@ -28,6 +28,7 @@ export default function Post() {
       <img
         className="absolute object-cover w-full h-full"
         src={backgroundImg}
+        alt="error-loading"
       />
       <section className="container mx-auto relative">
         <h1 className="text-5xl flex justify-center cursive">Blog Post</h1>

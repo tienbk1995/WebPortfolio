@@ -25,6 +25,7 @@ export default function Project() {
       <img
         className="absolute object-cover w-full h-full"
         src={backgroundImg}
+        alt="error-loading"
       />
       <section className="container mx-auto relative">
         <h1 className="text-5xl flex justify-center cursive">My Project</h1>
