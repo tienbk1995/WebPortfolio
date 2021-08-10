@@ -13,7 +13,7 @@ function App() {
       <Switch>
         <Route component={Home} path="/" exact />
         <Route component={About} path="/about" exact />
-        <Route component={SinglePost} path="post/:slug" exact />
+        <Route component={SinglePost} path="/post/:slug" />
         <Route component={Post} path="/post" exact />
         <Route component={Project} path="/project" exact />
       </Switch>
