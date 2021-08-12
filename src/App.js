@@ -5,8 +5,14 @@ import SinglePost from "./components/SinglePost";
 import Post from "./components/Post";
 import Project from "./components/Project";
 import NavBar from "./components/NavBar";
+import React, { useState, useEffect } from "react";
 
 function App() {
+  // Change the name of title in browser bar
+  useEffect(() => {
+    document.title = "TienPhanBlog";
+  }, []);
+
   return (
     <BrowserRouter>
       <NavBar />

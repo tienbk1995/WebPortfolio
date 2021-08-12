@@ -35,7 +35,8 @@ export default function SinglePost() {
       .catch(console.error);
   }, [slug]);
 
-  if (!singlePost) return <h1>Loading...</h1>;
+  if (!singlePost)
+    return <h1 className="text-black-200 font-bold">Loading...</h1>;
 
   return (
     <main className="bg-gray-200 min-h-screen p-12">
