@@ -6,6 +6,7 @@ import Post from "./components/Post";
 import Project from "./components/Project";
 import NavBar from "./components/NavBar";
 import React, { useState, useEffect } from "react";
+import Iframe from "./components/Iframe.js";
 
 function App() {
   // Change the name of title in browser bar
@@ -16,6 +17,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
+      <Iframe id="frame" />
       <Switch>
         <Route component={Home} path="/" exact />
         <Route component={About} path="/about" exact />

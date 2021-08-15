@@ -1,20 +1,41 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import sanityClient from "../client.js";
 
 class Iframe extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       pos1: 0,
       pos2: 0,
       pos3: 0,
       pos4: 0,
     };
+
+    this.dataCache = {};
+
+    this.dataFetch = () => {
+      sanityClient
+        .fetch(
+          `*[_type == "music"]{
+            song,
+            link,
+          }`
+        )
+        .then((data) => {
+          if (!data) return <h1>Loading...</h1>;
+          this.dataCache = data[0];
+          this.setState({ loading: true });
+        })
+        .catch(console.error);
+    };
+
+    this.dataFetch();
+
     this.dragMouseDown = this.dragMouseDown.bind(this);
     this.elementDrag = this.elementDrag.bind(this);
     this.closeDragElement = this.closeDragElement.bind(this);
   }
-  
 
   dragMouseDown = (e) => {
     e = e || window.event;
@@ -37,8 +58,23 @@ class Iframe extends Component {
     this.state.pos2 = this.state.pos4 - e.clientY;
     this.state.pos3 = e.clientX;
     this.state.pos4 = e.clientY;
-    this.setState({ pos1: domRect.left - this.state.pos1 });
-    this.setState({ pos2: domRect.top - this.state.pos2 - 96 });
+    if (domRect.left - this.state.pos1 < 0) {
+      this.setState({ pos1: 0 });
+      this.setState({ pos2: domRect.top - this.state.pos2 });
+    } else if (domRect.left - this.state.pos1 > 1603) {
+      this.setState({ pos1: 1603 });
+      this.setState({ pos2: domRect.top - this.state.pos2 });
+    } else if (domRect.top - this.state.pos2 > 578) {
+      // This number is chose due to frame size limitation, the number can be optionally change
+      this.setState({ pos1: domRect.left - this.state.pos1 });
+      this.setState({ pos2: 578 });
+    } else if (domRect.top - this.state.pos2 < 0) {
+      this.setState({ pos1: domRect.left - this.state.pos1 });
+      this.setState({ pos2: 0 });
+    } else {
+      this.setState({ pos1: domRect.left - this.state.pos1 });
+      this.setState({ pos2: domRect.top - this.state.pos2 });
+    }
   };
 
   closeDragElement = () => {
@@ -68,7 +104,7 @@ class Iframe extends Component {
         </div>
         <iframe
           className="h-20"
-          src={this.props.src}
+          src={this.dataCache.link}
           width="100%"
           frameBorder="0"
           allowtransparency="true"
